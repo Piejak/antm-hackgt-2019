@@ -5,7 +5,7 @@ import { ExpoLinksView } from '@expo/samples';
 export default class BudgetScreen extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {text: ''};
+        this.state = {text: '10000'};
       }
 
   render() {
@@ -20,8 +20,8 @@ export default class BudgetScreen extends React.Component{
         
       <Button 
             title="NEXT ->" 
-            onPress={() => this.props.navigation.navigate("Risk")
-            // do some wack verify number shit
+            onPress={() => this.props.navigation.navigate("Sector")
+            // do some wack verify
             } >
       </Button>
       </View>
