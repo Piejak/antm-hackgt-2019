@@ -1,7 +1,6 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Button } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
-import RadioForm, {RadioButton, RadioButtonInput, RadioButtonLabel} from 'react-native-simple-radio-button';
+import { ScrollView, StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import RadioForm from 'react-native-simple-radio-button';
  
 var radio_props = [
   {label: 'Short (0-4 Years)', value: 0 },
@@ -13,20 +12,30 @@ export default class TimeHorizonScreen extends React.Component{
   render() {
     return (
       <ScrollView style={styles.container}>
-        {/**
-        * Go ahead and delete ExpoLinksView and replace it with your content;
-        * we just wanted to provide you with some helpful links.
-        */}
         <View>
         <RadioForm
           radio_props={radio_props}
           initial={0}
           onPress={(value) => {this.setState({value:value})}}
+          style={{paddingLeft: 10}}
         />
-      <Button 
-            title="NEXT ->" 
-            onPress={() => this.props.navigation.navigate("Risk")} >
-      </Button>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate("Risk")}>
+            <View
+              style={{
+                backgroundColor: '#2B4162',
+                top:5,
+                //flex:0,
+                alignItems: 'center',
+                alignSelf:'center',
+                justifyContent: 'center',
+                borderRadius: 15,
+                padding: 15,
+              }}>
+              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
+                Next: Select Risk Tolerance
+              </Text>
+            </View>
+        </TouchableOpacity>
       </View>
       </ScrollView>
     );
@@ -34,7 +43,7 @@ export default class TimeHorizonScreen extends React.Component{
 }
 
 TimeHorizonScreen.navigationOptions = {
-  title: 'Select Your Time Horizon',
+  title: 'Time Horizon',
 };
 
 const styles = StyleSheet.create({
