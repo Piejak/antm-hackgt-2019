@@ -1,4 +1,3 @@
-import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
 import {
   Image,
@@ -73,7 +72,7 @@ export default class HomeScreen extends React.Component {
     this.fadeIn3();
     this.fadeIn4();
     return (
-      <View style={styles.container}>
+      <View colors={['#87CEEEB','#87BCDE']} style={styles.container}>
         
         <ScrollView
           style={styles.container}
@@ -121,6 +120,9 @@ export default class HomeScreen extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
+          <Image 
+            source={require('../assets/images/aladdin.png')}
+            style={styles.welcomeImage}></Image>
           </Animated.View>
 
         </ScrollView>
@@ -135,9 +137,6 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-function handleNextScreenPress() {
-  this.props.navigation.navigate('Links')
-}
 
 const styles = StyleSheet.create({
   container: {
@@ -163,9 +162,9 @@ const styles = StyleSheet.create({
   welcomeImage: {
     width: 100,
     height: 80,
+    top:180,
     resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
+    alignSelf: 'center',
   },
   getStartedContainer: {
     alignItems: 'center',
