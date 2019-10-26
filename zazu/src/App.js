@@ -7,7 +7,6 @@ import PortfolioForm from './PortfolioForm';
 import PortfolioPerformance from './PortfolioPerformance';
 import Footer from './Footer';
 
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
@@ -31,7 +30,7 @@ class App extends React.Component {
         <Container>
           {
             this.state.step === 'performance' ?
-              <div>
+              <div className="App">
                 <h1>
                   We've picked the following investments for you
                 </h1>

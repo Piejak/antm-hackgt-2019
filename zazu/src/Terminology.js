@@ -11,3 +11,5 @@ const Equity= "An equity is ownership of a public company. Equities are most com
 const RiskTolerance=`Risk tolerance is your ability to take on risk. Usually higher risk tolerances results in higher long term gain, but risk losing money in the short term.`
 
 const TimeHorizon=`Time horizon is how long you plan on keeping your investments before selling them off.`
+
+const Stocks=`Stocks are a piece of ownership in a company. The more stocks you own, the larger ownership you have in the corresponding company.`

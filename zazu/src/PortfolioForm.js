@@ -11,6 +11,7 @@ import Overlay from 'react-bootstrap/Overlay'
 import ETFHover from "./ETFHover"
 import BondHover from "./BondHover"
 import RiskHover from "./RiskTolerance"
+import StockHover from "./StockHover"
 
 
 import {FaArrowRight} from 'react-icons/fa';
@@ -79,7 +80,7 @@ class PortfolioForm extends React.Component {
                     />
                     <Form.Check
                     type="radio"
-                    label = "Medium (ETFs & Stocks)"
+                    label = {<div> Medium (ETFs & <StockHover/>)</div>}
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosMedium"
                     value = "medium"

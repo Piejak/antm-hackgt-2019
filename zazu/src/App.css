@@ -1,4 +1,14 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .App {
+  animation-duration: 3s;
+  animation-name: fadeIn;
   text-align: left; 
   background-color: white;
   flex-direction: column-reverse;
@@ -9,7 +19,17 @@
   background-size: auto;
   line-height: 30px;
 }
+
+.PerformanceChart{
+    animation-duration: 3s;
+    animation-name: fadeIn;
+}
+.HoldingsChart{
+  animation-duration: 3s;
+  animation-name: fadeIn;
+}
 h1{
+
   text-align: left; 
 
 }
