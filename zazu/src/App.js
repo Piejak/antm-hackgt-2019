@@ -46,7 +46,7 @@ class App extends React.Component {
         <Container>
           {
             this.state.step === 'performance' ?
-              <div>
+              <div className='App'>
                 <Button variant="outline-primary" onClick={this.backButton}><FaArrowLeft />Back</Button>
                 <br />
                 <h1>
@@ -74,6 +74,7 @@ class App extends React.Component {
                 <Footer />
               </div>
           }
+          <Footer />
         </Container>
       </div>
     );

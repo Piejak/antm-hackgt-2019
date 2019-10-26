@@ -7,6 +7,9 @@ import Button from 'react-bootstrap/Button'
 import APIClient from './apiClient';
 import ETFHover from "./ETFHover"
 import BondHover from "./BondHover"
+import RiskHover from "./RiskTolerance"
+import StockHover from "./StockHover"
+
 
 import {FaArrowRight} from 'react-icons/fa';
 
@@ -60,7 +63,10 @@ class PortfolioForm extends React.Component {
                 </Form.Group>
                 <br />
                 <Form.Group controlId="saveRisk" required>
-                    <Form.Label>What's your risk tolerance?</Form.Label>
+                    <Form.Label><div>
+                        What's your <RiskHover/>?
+                        </div>
+                        </Form.Label>
                     {/* Think about giving year over year return ranges for these rather than talk about the financial
                     instruments being used */}
                     <Form.Check
@@ -73,7 +79,7 @@ class PortfolioForm extends React.Component {
                     />
                     <Form.Check
                     type="radio"
-                    label = "Medium (ETFs & Stocks)"
+                    label = {<div> Medium (ETFs & <StockHover/>)</div>}
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosMedium"
                     value = "medium"

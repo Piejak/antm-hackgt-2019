@@ -10,6 +10,8 @@ import Col from 'react-bootstrap/Col';
 import APIClient from './apiClient';
 import HoldingsChart from './Charts/HoldingsChart';
 import PerformanceChart from './Charts/PerformanceChart';
+import PortfolioHover from './PortfolioHover';
+
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -73,7 +75,11 @@ class PortfolioPerformance extends React.Component {
             <div>
                 <HoldingsChart holdings={h} />
                 <br />
-                <h3>Here's how your portfolio has been doing</h3>
+                <h3>
+                    <div>
+                        Here's how your <PortfolioHover/> has been doing
+                        </div>
+                </h3>
                     <Row>
                         <Col>See how different investment amounts would grow over time</Col>
                     </Row>

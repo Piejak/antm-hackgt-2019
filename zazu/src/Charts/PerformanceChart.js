@@ -136,7 +136,7 @@ class PerformanceChart extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="PerformanceChart">
         <canvas id="performanceChart" width="400" height="200"></canvas>
       </div>
     );
