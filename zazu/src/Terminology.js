@@ -1,5 +1,4 @@
-const EndString
-    EndText:"Click to learn more about"
+const EndText= "Click to learn more about";
 const FinTerms={
     ETF: `Short for Exchange-Traded Fund. ETFs are made up of many different stocks, allowing you to get access to entire industries with only one trade.` + EndText + '<a href="https://www.blackrock.com/us/individual/education/ishares-etfs" > "ETFs." </a>',
    
@@ -9,5 +8,5 @@ const FinTerms={
    
     Portfolio: "A portfolio the name for a group of investments. A portfolio can consist of: stocks, bonds, ETFs, mutual funds, and many other assets.",
 
-    Equity: "An equity"
+    Equity: "An equity is ownership of a public company. Equities are most commonly traded in the form of stocks."
 }
