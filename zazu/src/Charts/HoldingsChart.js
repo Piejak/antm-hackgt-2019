@@ -45,7 +45,7 @@ class HoldingsChart extends React.Component {
   render() {
     return (
       <div>
-        <canvas id="holdingChart" width="400" height="200"></canvas>
+        <canvas id="holdingChart" width="600" height="200"></canvas>
       </div>
     );
   }

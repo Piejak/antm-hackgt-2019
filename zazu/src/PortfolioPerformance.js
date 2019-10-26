@@ -53,17 +53,20 @@ class PortfolioPerformance extends React.Component {
             {
                 weight: 30,
                 description: 'iShares Core US Aggregate Bond ETF',
-                assetClass: 'FixedIncome'
+                assetClass: 'FixedIncome',
+                ticker: 'AGG'
             },
             {
                 weight: 20,
                 description: 'BlackRock Global Allocation Fund',
-                assetClass: 'Allocation'
+                assetClass: 'Allocation',
+                ticker: 'MALOX'
             },
             {
                 weight: 50,
                 description: 'Vanguard FTSE Emerging Markets ETF',
-                assetClass: 'Equity'
+                assetClass: 'Equity',
+                ticker: 'VWO'
             }
         ];
         return (
@@ -105,7 +108,7 @@ class PortfolioPerformance extends React.Component {
                         </Col>
                         <Col sm="6" />
                     </FormGroup>
-                <PerformanceChart capitalValue={this.state.capitalValue} date={this.state.date} key={`${this.state.capitalValue}${this.state.date}`}/>
+                <PerformanceChart holdings={h} capitalValue={this.state.capitalValue} date={this.state.date} key={`${this.state.capitalValue}${this.state.date}`}/>
             </div>
         );
     }

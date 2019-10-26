@@ -2,7 +2,6 @@ import React from 'react';
 import logo from './BlackRockLogo.png'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Navbar from 'react-bootstrap/Navbar'
-import Container from 'react-bootstrap/Container'
 
 function Footer(){
     return(

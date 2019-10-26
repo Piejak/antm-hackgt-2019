@@ -1,7 +1,9 @@
 import React from 'react';
 import Chart from 'chart.js';
+import Axios from 'axios';
+import constants from '../constants.js';
 
-let testData = require('../exResponse.json');
+// let testData = require('../exResponse.json');
 
 class PerformanceChart extends React.Component {
   constructor(props) {
@@ -22,6 +24,11 @@ class PerformanceChart extends React.Component {
       'December',
     ]
 
+    this.posString = '';
+    props.holdings.forEach(h => {
+      this.posString += `${h.ticker}~${h.weight}|`
+    });
+
     this.state = {
       startingCapital: props.capitalValue,
       date: props.date
@@ -29,8 +36,8 @@ class PerformanceChart extends React.Component {
 
     this.performance = [];
     this.labels = [];
-    // props.performance.forEach(h => {
 
+    this.data = null;
 
     this.createChart = this.createChart.bind(this)
     this.composeChart = this.composeChart.bind(this)
@@ -84,7 +91,7 @@ class PerformanceChart extends React.Component {
     this.labels = [];
     console.log(this.state.date);
     let basePerformance = null;
-    testData.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
+    this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
       let d = new Date(h[0]);
       if (this.state.date == null) {
         this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
@@ -103,7 +110,28 @@ class PerformanceChart extends React.Component {
   }
 
   componentDidMount() {
-    this.composeChart();
+    if (this.data == null) {
+      // Axios.get(`${constants.blackrockBase}${constants.portfolioAnalysisEndpoint}?calculatePerformance=true&positions=${this.posString}`,
+      //   {
+      //     headers: {
+      //       'Access-Control-Allow-Origin': '*',
+      //       'Content-Type': 'application/json'
+      //     },
+      //     mode: 'no-cors'
+      fetch(`${constants.blackrockBase}${constants.portfolioAnalysisEndpoint}?calculatePerformance=true&positions=${this.posString}`,
+      {
+        headers: {
+          'Access-Control-Allow-Origin': 'http://localhost:3000'
+        }
+      })
+      .then((response) => {
+        this.data = response;
+        console.log(response);
+        this.composeChart();
+      });
+    } else {
+      this.composeChart();
+    }
   }
 
   render() {

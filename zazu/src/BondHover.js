@@ -1,11 +1,5 @@
 import React from 'react';
-import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
-import Button from 'react-bootstrap/Button'
-import APIClient from './apiClient';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
-// import FinTerms from './Terminology'
-import {EndText} from './Terminology'
 import Popover from 'react-bootstrap/Popover'
 
 
@@ -14,9 +8,9 @@ const BondStr=`A bonds is you loaning your money to the government for a fixed p
 const Bonds = (
     <Popover id="popover-basic">
     <Popover.Content>
-       
+
     {BondStr}
-       
+
     </Popover.Content>
   </Popover>
 )
