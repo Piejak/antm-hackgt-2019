@@ -4,7 +4,7 @@ import pandas as pd
 from scipy.optimize import minimize
 
 
-def get_normalized_prices(tickers: list) -> pd.DataFrame:
+def get_normalized_prices(start_date: str, tickers: list) -> pd.DataFrame:
     identifiers = ",".join(tickers)
     response = requests.get(
         'https://www.blackrock.com/tools/hackathon/performance',
@@ -12,7 +12,7 @@ def get_normalized_prices(tickers: list) -> pd.DataFrame:
             "identifiers": identifiers,
             "betaPortfolios": "SNP500",
             "riskFreeRatePortfolio": "LTBILL1-3M",
-            "startDate": "20191014"
+            "startDate": start_date
         }
     )
     json_response = response.json()
