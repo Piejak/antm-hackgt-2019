@@ -1,8 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
+// import logo from './logo.svg';
 import './App.css';
 import Form from 'react-bootstrap/Form'
-import FormControl from 'react-bootstrap/FormControl'
+// import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import APIClient from './apiClient';
 import ProgressBar from 'react-bootstrap/ProgressBar'
@@ -11,9 +11,16 @@ import Overlay from 'react-bootstrap/Overlay'
 import ETFHover from "./ETFHover"
 import BondHover from "./BondHover"
 
+import {FaArrowRight} from 'react-icons/fa';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class PortfolioForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {formSubmit: props.formSubmit};
+        this.handleSubmit = this.handleSubmit.bind(this);
+    }
 
     async componentDidMount() {
         this.apiClient = new APIClient();
@@ -22,13 +29,13 @@ class PortfolioForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        console.log(data.get('saveLength'));
+        this.state.formSubmit();
+        console.log(data.get('saveLengthRadios'));
     }
 
     render() {
         return (
-
-                < Form onSubmit = {this.handleSubmit} >
+            < Form onSubmit = {this.handleSubmit} >
                 <Form.Group controlId="saveLength">
                     <Form.Label>How long do you want to save?</Form.Label>
                     <Form.Check
@@ -36,18 +43,21 @@ class PortfolioForm extends React.Component {
                     label="Short Term (0-5 years)"
                     name="saveLengthRadios"
                     id = "saveLengthRadiosShort"
+                    value="short"
                     />
                     <Form.Check
                     type="radio"
                     label = "Medium Term (5-15 years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosMedium"
+                    value = "medium"
                     />
                     <Form.Check
                     type="radio"
                     label = "Long Term (15+ years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosLong"
+                    value = "long"
                     />
                 </Form.Group>
                 <br />
@@ -60,23 +70,26 @@ class PortfolioForm extends React.Component {
                     label= {<div> Low (<ETFHover/> & <BondHover/>)</div>}
                     name="saveRiskRadios"
                     id = "saveRiskRadiosLow"
+                    value = "low"
                     />
                     <Form.Check
                     type="radio"
                     label = "Medium (ETFs & Stocks)"
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosMedium"
+                    value = "medium"
                     />
                     <Form.Check
                     type="radio"
                     label = "High (Stocks)"
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosHigh"
+                    value = "high"
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button variant="outline-primary" type="submit">
+                    Get a customized investment portfolio <FaArrowRight />
                 </Button>
                 {/* <br />
                 <br />
