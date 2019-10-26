@@ -6,6 +6,8 @@ import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import APIClient from './apiClient';
 
+import {FaArrowRight} from 'react-icons/fa';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 class PortfolioForm extends React.Component {
@@ -17,7 +19,7 @@ class PortfolioForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        console.log(data.get('saveLength'));
+        console.log(data.get('saveLengthRadios'));
     }
 
     render() {
@@ -31,18 +33,21 @@ class PortfolioForm extends React.Component {
                     label="Short Term (0-5 years)"
                     name="saveLengthRadios"
                     id = "saveLengthRadiosShort"
+                    value="short"
                     />
                     <Form.Check
                     type="radio"
                     label = "Medium Term (5-15 years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosMedium"
+                    value = "medium"
                     />
                     <Form.Check
                     type="radio"
                     label = "Long Term (15+ years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosLong"
+                    value = "long"
                     />
                 </Form.Group>
 
@@ -55,23 +60,26 @@ class PortfolioForm extends React.Component {
                     label="Low (ETFS & Bonds)"
                     name="saveRiskRadios"
                     id = "saveRiskRadiosLow"
+                    value = "low"
                     />
                     <Form.Check
                     type="radio"
                     label = "Medium (ETFs & Stocks)"
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosMedium"
+                    value = "medium"
                     />
                     <Form.Check
                     type="radio"
                     label = "High (Stocks)"
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosHigh"
+                    value = "high"
                     />
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
-                    Submit
+                <Button variant="outline-primary" type="submit">
+                    Get a customized investment portfolio <FaArrowRight />
                 </Button>
                 </Form>
         );
