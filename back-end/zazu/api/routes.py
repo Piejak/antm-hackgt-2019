@@ -15,9 +15,12 @@ def get_allocation():
     start_date = str(datetime.today() + relativedelta(years=-1*time_horizon)).split(" ")[0].replace('-', '')
 
     # TODO: DETERMINE PORTFOLIO COMPOSITION BASED ON USER PROFILE
-    tickers = ['AAPL', 'MSFT']
+    if risk_tolerance == 'low':
+        tickers = ['SPY', 'VT', 'EFA', 'DIA', ]
+    else:
+        tickers = ['MSFT', 'AAPL', 'AMZN', 'JPM', 'JNJ', 'PG', 'BA', 'MCD', 'MA', 'UNH', 'XOM']
 
     normalized_prices_df = get_normalized_prices(start_date, tickers)
     optimized_allocations = get_optimized_allocations(tickers, normalized_prices_df)
 
-    return optimized_allocations
+    return str(optimized_allocations)

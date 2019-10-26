@@ -23,10 +23,8 @@ def get_normalized_prices(start_date: str, tickers: list) -> pd.DataFrame:
         returns_dict = stock['returnsMap']
         normalized_prices = [1]
         for date in returns_dict:
-            if returns_dict[date]['oneDay'] != 0:  # Skip days when the stock did not trade
-                price = returns_dict[date]['level']
-                normalized_prices.append(price)
-
+            price = returns_dict[date]['level']
+            normalized_prices.append(price)
         normalized_prices_df[stock['ticker']] = normalized_prices
     return normalized_prices_df
 
