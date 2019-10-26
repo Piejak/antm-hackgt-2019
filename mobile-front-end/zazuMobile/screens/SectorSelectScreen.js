@@ -169,10 +169,43 @@ SectorSelectScreen.navigationOptions = {
   title: 'Select Your Time Horizon',
 };
 
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#fff',
-  },
-});
+    container: {
+      flex: 1,
+      paddingTop: 15,
+      backgroundColor: '#fff',
+    },
+    titleText: {
+      fontSize: 30,
+      fontWeight: 'bold',
+      color: '#7F7F7F',
+      top: 0, left: 0, bottom: 0, right: 0,
+      padding: 5,
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+    },
+    blurbText: {
+      fontSize: 20,
+      color: '#32292F',
+      top: 0, left: 0, bottom: 0, right: 0,
+      paddingBottom: 5,
+      paddingLeft: 5,
+      paddingRight: 5,
+      justifyContent: 'center',
+      alignItems: 'center',
+      textAlign: 'center',
+    },
+    welcomeImage: {
+      width: 300,
+      height: 220,
+      paddingBottom:50,
+      resizeMode: 'contain',
+      alignSelf: 'center',
+    },
+    textBox: { 
+      height: 40, 
+      borderColor: 'gray', 
+      borderWidth: 1}
+  });
