@@ -5,6 +5,8 @@ import Titlebar from './Navbar/navbar';
 import Container from 'react-bootstrap/Container';
 import PortfolioForm from './PortfolioForm';
 import PortfolioPerformance from './PortfolioPerformance';
+import Footer from './Footer';
+
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -41,6 +43,9 @@ class App extends React.Component {
                   Manage your money
                 </h1>
                 <PortfolioForm formSubmit={this.handleClick} />
+                <br>
+          </br>
+        <Footer />
               </div>
           }
         </Container>

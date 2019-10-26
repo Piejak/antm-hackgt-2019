@@ -5,6 +5,11 @@ import Form from 'react-bootstrap/Form'
 // import FormControl from 'react-bootstrap/FormControl'
 import Button from 'react-bootstrap/Button'
 import APIClient from './apiClient';
+import ProgressBar from 'react-bootstrap/ProgressBar'
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
+import Overlay from 'react-bootstrap/Overlay'
+import ETFHover from "./ETFHover"
+import BondHover from "./BondHover"
 
 import {FaArrowRight} from 'react-icons/fa';
 
@@ -55,14 +60,14 @@ class PortfolioForm extends React.Component {
                     value = "long"
                     />
                 </Form.Group>
-
+                <br />
                 <Form.Group controlId="saveRisk">
                     <Form.Label>What's your risk tolerance?</Form.Label>
                     {/* Think about giving year over year return ranges for these rather than talk about the financial
                     instruments being used */}
                     <Form.Check
                     type="radio"
-                    label="Low (ETFs & Bonds)"
+                    label= {<div> Low (<ETFHover/> & <BondHover/>)</div>}
                     name="saveRiskRadios"
                     id = "saveRiskRadiosLow"
                     value = "low"
@@ -86,7 +91,10 @@ class PortfolioForm extends React.Component {
                 <Button variant="outline-primary" type="submit">
                     Get a customized investment portfolio <FaArrowRight />
                 </Button>
-            </Form>
+                {/* <br />
+                <br />
+                <ProgressBar now={0} /> */}
+                </Form>
         );
     }
 }

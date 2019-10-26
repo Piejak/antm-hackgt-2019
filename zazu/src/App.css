@@ -1,20 +1,35 @@
 .App {
-  /* text-align: center; */
+  text-align: left; 
+  background-color: white;
+  flex-direction: column-reverse;
+  /* float: inline-end; */
+  color:black;
+  font-size: 15px;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  background-size: auto;
+  line-height: 30px;
+}
+h1{
+  text-align: left; 
+
 }
 
+
 .App-logo {
-  height: 40vmin;
+  height: min-content;
+  size: 10px;
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color:  #09d3ac;
+  size: 10px;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+  display: flexbox;
+  /* flex-direction: column-reverse; */
   /* align-items: center;
   justify-content: center; */
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #09d3ac;;
 }
 
 .App-link {
