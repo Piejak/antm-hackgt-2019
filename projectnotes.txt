@@ -1,0 +1,9 @@
+- blackrock api
+
+- problem: financial literacy for common people
+    - issue - barrier to entry with capital requirement for trading
+    - explain risk reward trade off
+    - sit between robinhood and financial planner
+    - educate and assist builded a portfolio
+
+- ask questions -> build portfolio
