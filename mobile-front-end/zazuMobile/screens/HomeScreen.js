@@ -40,7 +40,7 @@ export default function HomeScreen() {
           </View>
 
           <Text style={styles.getStartedText}>
-            Dummy Thiccness
+            Change this text and your app will automatically reload.
           </Text>
         </View>
 
@@ -111,7 +111,7 @@ function handleHelpPress() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#ffffff',
   },
   developmentModeText: {
     marginBottom: 20,
