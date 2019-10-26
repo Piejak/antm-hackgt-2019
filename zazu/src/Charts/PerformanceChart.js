@@ -7,7 +7,7 @@ class PerformanceChart extends React.Component {
   constructor(props) {
     super(props);
 
-    const months = [
+    this.months = [
       'January',
       'February',
       'March',
@@ -22,18 +22,18 @@ class PerformanceChart extends React.Component {
       'December',
     ]
 
-    const startingCapital = props.capitalValue;
+    this.state = {
+      startingCapital: props.capitalValue,
+      date: props.date
+    }
 
     this.performance = [];
     this.labels = [];
     // props.performance.forEach(h => {
-    testData.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
-      let d = new Date(h[0]);
-      this.labels.push(`${months[d.getMonth()]} ${d.getYear() + 1900}`);
-      this.performance.push(Math.round(h[1] * startingCapital * 100) / 100);
-    });
+
 
     this.createChart = this.createChart.bind(this)
+    this.composeChart = this.composeChart.bind(this)
   }
 
   createChart(ctx) {
@@ -79,9 +79,31 @@ class PerformanceChart extends React.Component {
     return chart;
   }
 
-  componentDidMount() {
+  composeChart() {
+    this.performance = [];
+    this.labels = [];
+    console.log(this.state.date);
+    let basePerformance = null;
+    testData.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
+      let d = new Date(h[0]);
+      if (this.state.date == null) {
+        this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+        this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+      } else if (d >= this.state.date) {
+        if (basePerformance == null) {
+          basePerformance = h[1];
+        }
+        this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+        this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
+      }
+    });
+
     const ctx = document.getElementById('performanceChart');
     this.createChart(ctx);
+  }
+
+  componentDidMount() {
+    this.composeChart();
   }
 
   render() {

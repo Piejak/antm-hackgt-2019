@@ -20,9 +20,11 @@ class PortfolioPerformance extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            capitalValue: 10000
+            capitalValue: 10000,
+            date: null
         }
         this.startingCapChange = this.startingCapChange.bind(this);
+        this.startDateChange = this.startDateChange.bind(this);
     }
 
     async componentDidMount() {
@@ -36,13 +38,16 @@ class PortfolioPerformance extends React.Component {
     }
 
     startingCapChange(event) {
-        console.log(event.target.value);
-        try {
-            let n = Number(event.target.value);
+        let n = parseFloat(event.target.value);
+        if (!Number.isNaN(n)) {
             this.setState({capitalValue: n});
-        } catch (error) {
-
         }
+    }
+
+    startDateChange(event) {
+        console.log(event.target.value);
+        let d = new Date(event.target.value);
+        this.setState({date: d});
     }
 
     render() {
@@ -73,7 +78,7 @@ class PortfolioPerformance extends React.Component {
                         </div>
                 </h3>
                     <Row>
-                        <Col xs={8}>See how different investment amounts would grow over time</Col>
+                        <Col>See how different investment amounts would grow over time</Col>
                     </Row>
                     <FormGroup as={Row}>
                         <FormLabel column sm="3">
@@ -101,11 +106,12 @@ class PortfolioPerformance extends React.Component {
                             aria-label="Username"
                             aria-describedby="basic-addon1"
                             type="date"
+                            onChange={this.startDateChange}
                             />
                         </Col>
                         <Col sm="6" />
                     </FormGroup>
-                <PerformanceChart capitalValue={this.state.capitalValue}/>
+                <PerformanceChart capitalValue={this.state.capitalValue} date={this.state.date} key={`${this.state.capitalValue}${this.state.date}`}/>
             </div>
         );
     }
