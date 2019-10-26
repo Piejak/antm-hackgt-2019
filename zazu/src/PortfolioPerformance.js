@@ -18,7 +18,7 @@ class PortfolioPerformance extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            capitalValue = 10000
+            capitalValue: 10000
         }
         this.startingCapChange = this.startingCapChange.bind(this);
     }
