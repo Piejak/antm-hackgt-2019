@@ -10,6 +10,8 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import Overlay from 'react-bootstrap/Overlay'
 import ETFHover from "./ETFHover"
 import BondHover from "./BondHover"
+import RiskHover from "./RiskTolerance"
+
 
 import {FaArrowRight} from 'react-icons/fa';
 
@@ -62,7 +64,10 @@ class PortfolioForm extends React.Component {
                 </Form.Group>
                 <br />
                 <Form.Group controlId="saveRisk">
-                    <Form.Label>What's your risk tolerance?</Form.Label>
+                    <Form.Label><div>
+                        What's your <RiskHover/>?
+                        </div>
+                        </Form.Label>
                     {/* Think about giving year over year return ranges for these rather than talk about the financial
                     instruments being used */}
                     <Form.Check

@@ -45,9 +45,9 @@ class App extends React.Component {
                 <PortfolioForm formSubmit={this.handleClick} />
                 <br>
           </br>
-        <Footer />
               </div>
           }
+          <Footer />
         </Container>
       </div>
     );
