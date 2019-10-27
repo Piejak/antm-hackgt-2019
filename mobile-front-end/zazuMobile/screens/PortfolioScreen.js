@@ -8,25 +8,30 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Animated
+  Animated,
+  TextInput
 } from 'react-native';
+import email from 'react-native-email'
 
 export default class PortfolioScreen extends React.Component {
   constructor(props) {
         super(props);
         global.portfolioGenerated = false;
-        this.state = {fadeIn1: new Animated.Value(0), fadeIn2: new Animated.Value(0)};
+        this.state = {fadeIn1: new Animated.Value(0), fadeIn2: new Animated.Value(0), text:"you@yourmail.com"};
         var allKeys = Object.keys(global.portfolio["0"])
         var yes = 0
         formatString = ""
+        emailFormatString = ""
         allKeys.forEach(function (element) {
             if (global.portfolio["0"][element] > 0.01){
                 yes = global.portfolio["0"][element] * 100
                 formatString += element + " " + yes.toFixed(0) + "%\n"
+                emailFormatString += "     " + element + " " + yes.toFixed(0) + "%\n"
             }
         })
         console.log(formatString)
         this.everything = formatString
+        this.emailEverything = emailFormatString
     }
   fadeIn1() {
     this.state.fadeIn1.setValue(0)
@@ -50,6 +55,14 @@ export default class PortfolioScreen extends React.Component {
       }
     ).start(() => {});
   }
+  handleEmail = (emailAddy) => {
+    const to = emailAddy // string or array of email addresses
+    email(to, {
+        // Optional additional arguments
+        subject: "My Zazu Generated Portfolio",
+        body: `Hello from Zazu!\n\nYou are getting this email as you have generated a portfolio with our Zazu App (Powered by BlackRock Aladdin)\n\nYour parameters were:\n     Time Horizon: ${global.riskToleranceLabel} \n     Risk Tolerance: ${global.riskToleranceLabel} \n     Budget:  $${global.budgetLabel} \n\nThrough Zazu's Magic, we generated the following Portfolio for you\n\n ${this.emailEverything} \n\nThank you for using Zazu!`
+    }).catch(console.error)
+}
   render() {
     if (global.portfolioGenerated === false) {
         this.fadeIn1();
@@ -73,7 +86,14 @@ export default class PortfolioScreen extends React.Component {
             <Text style={styles.mainText}>
              {this.everything}
             </Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Performance")}>
+        <View style={{ padding: 15 }}>
+        <TextInput
+            style={styles.textBox}
+            onChangeText={(text) => this.setState({text})}
+            value={this.state.text}
+        />
+        </View>
+          <TouchableOpacity onPress={() => this.handleEmail(this.state.text)}>
             <View
               style={{
                 backgroundColor: '#2B4162',
@@ -86,7 +106,26 @@ export default class PortfolioScreen extends React.Component {
                 padding: 15,
               }}>
               <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                View Portfolio Past Performance
+                Email Portfolio
+              </Text>
+            </View>
+          </TouchableOpacity>
+          <Text style={{padding:5}}></Text>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Home")}>
+            <View
+              style={{
+                backgroundColor: '#CC2936',
+                width:200,
+                top:5,
+                //flex:0,
+                alignItems: 'center',
+                alignSelf:'center',
+                justifyContent: 'center',
+                borderRadius: 15,
+                padding: 15
+              }}>
+              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
+                Return to Start
               </Text>
             </View>
           </TouchableOpacity>
@@ -219,4 +258,12 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
+  textBox: { 
+    height: 40, 
+    borderColor: 'gray', 
+    borderWidth: 1,
+    backgroundColor: "#FFFFFF"}
 });
+
+const subject = 'My Zazu Generated Portfolio'
+const body = "Hello from Zazu!\n\nYou are getting this email as you have generated a portfolio with our Zazu App (Powered by BlackRock Aladdin)\n\nYour parameters were:\n\tTime Horizon: " + global.timeHorizonLabel + "\n\tRisk Tolerance: " + global.riskToleranceLabel + "\n\tBudget:  " + '$' + global.budgetLabel + "\n\nThrough Zazu's Magic, we generated the following Portfolio for you\n\n" +  this.emailEverything + "\n\nThank you for using Zazu!"

@@ -11,25 +11,12 @@ import {
   Animated
 } from 'react-native';
 
-export default class PortfolioScreen extends React.Component {
+export default class EmailScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {fadeIn1: new Animated.Value(0)};
-  }
-  fadeIn1() {
-    this.state.fadeIn1.setValue(0)
-    Animated.timing(
-      this.state.fadeIn1,
-      {
-        toValue: 1,
-        delay:1000,
-        duration: 1000
-      }
-    ).start(() => {});
   }
   render() {
     if (global.portfolioGenerated === false) {
-        this.fadeIn1();
         global.portfolioGenerated = true;
     }
     return (
@@ -40,30 +27,11 @@ export default class PortfolioScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}> 
 
-          <Animated.View style={{opacity: this.state.fadeIn1}}>
             <Text style={styles.getStartedText}>
-              Your Portfolio
+              Email
             </Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("TimeHorizon")}>
-            <View
-              style={{
-                backgroundColor: '#CC2936',
-                width:200,
-                top:5,
-                //flex:0,
-                alignItems: 'center',
-                alignSelf:'center',
-                justifyContent: 'center',
-                borderRadius: 15,
-                padding: 15
-              }}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                Return to Start
-              </Text>
-            </View>
-          </TouchableOpacity>
           <Text style={{padding:5}}></Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("WaitMe")}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Portfolio")}>
             <View
               style={{
                 backgroundColor: '#2B4162',
@@ -81,7 +49,6 @@ export default class PortfolioScreen extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
-          </Animated.View>
         </View>
       </ScrollView>
     </View>
@@ -90,7 +57,7 @@ export default class PortfolioScreen extends React.Component {
 }
 
 
-PortfolioScreen.navigationOptions = {
+EmailScreen.navigationOptions = {
   header: null,
 };
 
@@ -99,7 +66,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#87bcde',
-    paddingTop: 70
+    paddingTop: 20
   },
   developmentModeText: {
     marginBottom: 20,

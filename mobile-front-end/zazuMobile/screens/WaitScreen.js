@@ -52,7 +52,7 @@ export default class WaitScreen extends React.Component {
             .then((response) => {
                 global.portfolio = response.data
                 success2 = true
-                this.props.navigation.navigate("LoadMe")
+                this.props.navigation.navigate("Portfolio")
             }).catch((err) =>{
                     
             })

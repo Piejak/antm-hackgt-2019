@@ -107,25 +107,6 @@ export default class VerifyScreen extends React.Component {
           </View>
 
           <Animated.View style={{opacity: this.state.fadeIn4}}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("TimeHorizon")}>
-            <View
-              style={{
-                backgroundColor: '#CC2936',
-                width:200,
-                top:5,
-                //flex:0,
-                alignItems: 'center',
-                alignSelf:'center',
-                justifyContent: 'center',
-                borderRadius: 15,
-                padding: 15
-              }}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                Return to Start
-              </Text>
-            </View>
-          </TouchableOpacity>
-          <Text style={{padding:5}}></Text>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("WaitMe")}>
             <View
               style={{
@@ -144,6 +125,26 @@ export default class VerifyScreen extends React.Component {
               </Text>
             </View>
           </TouchableOpacity>
+          <Text style={{padding:5}}></Text>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("TimeHorizon")}>
+            <View
+              style={{
+                backgroundColor: '#CC2936',
+                width:200,
+                top:5,
+                //flex:0,
+                alignItems: 'center',
+                alignSelf:'center',
+                justifyContent: 'center',
+                borderRadius: 15,
+                padding: 15
+              }}>
+              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
+                Return to Start
+              </Text>
+            </View>
+          </TouchableOpacity>
+          
           </Animated.View>
 
         </ScrollView>
