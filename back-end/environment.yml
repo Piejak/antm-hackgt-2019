@@ -6,3 +6,4 @@ dependencies:
   - scipy
   - flask
   - requests
+  - flask-cors
