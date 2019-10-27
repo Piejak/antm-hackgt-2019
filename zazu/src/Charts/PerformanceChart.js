@@ -92,12 +92,11 @@ class PerformanceChart extends React.Component {
     console.log(this.state.date);
     let basePerformance = null;
     if (realData) {
-      console.log(this.data.resultMap.PORTFOLIOS[0].portfolios[0]);
       let numPoints = this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.length;
       let pointNum = 0;
       this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
         let d = new Date(h[0]);
-        if (this.state.date == null) {
+        if (this.state.date == null || this.state.date == 'Invalid Date') {
           if (numPoints > 1000) {
             if (pointNum % 30 == 0) {
               this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
@@ -107,7 +106,6 @@ class PerformanceChart extends React.Component {
             this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
             this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
           }
-          pointNum++;
         } else if (d >= this.state.date) {
           if (basePerformance == null) {
             basePerformance = h[1];
@@ -115,14 +113,14 @@ class PerformanceChart extends React.Component {
           if (numPoints > 1000) {
             if (pointNum % 30 == 0) {
               this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
-              this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+              this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
             }
           } else {
             this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
-            this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+            this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
           }
-          pointNum++;
         }
+        pointNum++;
       });
 
       const ctx = document.getElementById('performanceChart');
