@@ -1,7 +1,8 @@
 import pandas as pd
 
 from flask import request
-import requests
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
 
 from . import api_blueprint
 from ..util import get_normalized_prices, get_optimized_allocations
@@ -12,13 +13,20 @@ def get_allocation():
     time_horizon = request.args.get('time')
     risk_tolerance = request.args.get('risk')
 
-    # TODO: DETERMINE PORTFOLIO COMPOSITION BASED ON USER PROFILE
-    tickers = ['AAPL', 'MSFT']
+    start_date = str(datetime.today() + relativedelta(years=-1*time_horizon)).split(" ")[0].replace('-', '')
 
-    normalized_prices_df = get_normalized_prices(tickers)
-    optimized_allocations = get_optimized_allocations(tickers, normalized_prices_df)
+    if risk_tolerance == 'low':
+        tickers = ['SPY', 'VT', 'EFA', 'QQQ', 'DIA', 'XLF']
+        sharpe_ratio_samples = 12
+    else:
+        tickers = ['MSFT', 'AAPL', 'AMZN', 'JPM', 'JNJ', 'PG', 'BA', 'MCD', 'MA', 'UNH', 'XOM']
+        sharpe_ratio_samples = 252
 
-    return optimized_allocations
+    normalized_prices_df = get_normalized_prices(start_date, tickers)
+    optimized_allocations = get_optimized_allocations(tickers, normalized_prices_df, sharpe_ratio_samples)
+
+    allocations = pd.DataFrame(optimized_allocations, index=tickers)
+    return allocations.to_json()
 
 @api_blueprint.route('/performance', methods=['GET'])
 def get_performance():
