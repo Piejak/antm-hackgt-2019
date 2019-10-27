@@ -14,10 +14,7 @@ import {
 export default class PortfolioScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {fadeIn1: new Animated.Value(0),
-                  fadeIn2: new Animated.Value(0),
-                  fadeIn3: new Animated.Value(0),
-                  fadeIn4: new Animated.Value(0)};
+    this.state = {fadeIn1: new Animated.Value(0)};
   }
   fadeIn1() {
     this.state.fadeIn1.setValue(0)
@@ -30,44 +27,11 @@ export default class PortfolioScreen extends React.Component {
       }
     ).start(() => {});
   }
-  fadeIn2() {
-    this.state.fadeIn2.setValue(0)
-    Animated.timing(
-      this.state.fadeIn2,
-      {
-        toValue: 1,
-        delay:2000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
-  fadeIn3() {
-    this.state.fadeIn3.setValue(0)
-    Animated.timing(
-      this.state.fadeIn3,
-      {
-        toValue: 1,
-        delay:3000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
-  fadeIn4() {
-    this.state.fadeIn4.setValue(0)
-    Animated.timing(
-      this.state.fadeIn4,
-      {
-        toValue: 1,
-        delay:4000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
   render() {
-    this.fadeIn1();
-    this.fadeIn2();
-    this.fadeIn3();
-    this.fadeIn4();
+    if (global.portfolioGenerated === false) {
+        this.fadeIn1();
+        global.portfolioGenerated = true;
+    }
     return (
       <View colors={['#87CEEEB','#87BCDE']} style={styles.container}>
     
@@ -75,39 +39,11 @@ export default class PortfolioScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}> 
-          <Text style={styles.getStartedText}>
-            Your parameters are:
-            </Text>
 
           <Animated.View style={{opacity: this.state.fadeIn1}}>
-            <Text style={styles.verifyTextTitle}>
-              Time Horizon: 
+            <Text style={styles.getStartedText}>
+              Your Portfolio
             </Text>
-            <Text style={styles.verifyText}>
-              {global.timeHorizonLabel}
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={{opacity: this.state.fadeIn2}}>
-            <Text style={styles.verifyTextTitle}>
-              Risk Tolerance: 
-            </Text>
-            <Text style={styles.verifyText}>
-              {global.riskToleranceLabel}
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={{opacity: this.state.fadeIn3}}>
-            <Text style={styles.verifyTextTitle}>
-              Budget: 
-            </Text>
-            <Text style={styles.verifyText}>
-              {'$' + global.budgetLabel}
-            </Text>
-          </Animated.View>
-          </View>
-
-          <Animated.View style={{opacity: this.state.fadeIn4}}>
           <TouchableOpacity onPress={() => this.props.navigation.navigate("TimeHorizon")}>
             <View
               style={{
@@ -146,10 +82,9 @@ export default class PortfolioScreen extends React.Component {
             </View>
           </TouchableOpacity>
           </Animated.View>
-
-        </ScrollView>
-
-      </View>
+        </View>
+      </ScrollView>
+    </View>
     );
   }
 }

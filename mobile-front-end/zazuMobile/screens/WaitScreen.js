@@ -16,8 +16,8 @@ export default class WaitScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {fadeIn1: new Animated.Value(0)};
-    this.portfolio = null;
-    this.performanceData = null;
+    global.portfolio = null;
+    global.performanceData = null;
   }
   fadeIn1() {
     this.state.fadeIn1.setValue(0)
@@ -32,11 +32,6 @@ export default class WaitScreen extends React.Component {
   }
 
     componentDidMount() {
-        // that's the shit i do like
-        Axios.get(`${constants.serverBase}${constants.performanceEndpoint}?positions=${this.posString}`)
-            .then((response) => {
-              this.performanceData = response.data;
-            })
         var riskVal = ''
         var yearLength = 0
         if (global.riskToleranceValue === 0) {
@@ -52,11 +47,16 @@ export default class WaitScreen extends React.Component {
         } else if (global.timeHorizonValue === 2) {
             yearLength = 2
         }
-        Axios.get(`${constants.serverBase}${constants.optimizeEndpoint}?time=${yearLength}&risk=${riskVal}`)
+       
+         Axios.get(`${constants.serverBase}${constants.optimizeEndpoint}?time=${yearLength}&risk=${riskVal}`)
             .then((response) => {
-                this.portfolio = response.data
+                global.portfolio = response.data
+                success2 = true
+                this.props.navigation.navigate("LoadMe")
+            }).catch((err) =>{
+                    
             })
-        this.props.navigation.navigate("Risk")
+
     }
   render() {
     //this.fadeIn1()

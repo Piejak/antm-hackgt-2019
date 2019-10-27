@@ -18,6 +18,7 @@ import { NavigationEvents } from 'react-navigation';
 export default class HomeScreen extends React.Component {
   constructor(props) {
     super(props);
+    global.portfolioGenerated = false;
     this.state = {fadeIn1: new Animated.Value(0),
                   fadeIn2: new Animated.Value(0),
                   fadeIn3: new Animated.Value(0),

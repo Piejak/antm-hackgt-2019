@@ -1,4 +1,3 @@
-// big time todo
 import React from 'react';
 import {
   Image,
@@ -10,24 +9,26 @@ import {
   View,
   Animated
 } from 'react-native';
+import Axios from 'axios';
+import constants from '../constants/Networks.js';
 
-export default class PortfolioScreen extends React.Component {
+export default class WaitScreen2 extends React.Component {
   constructor(props) {
-        super(props);
-        global.portfolioGenerated = false;
-        this.state = {fadeIn1: new Animated.Value(0), fadeIn2: new Animated.Value(0)};
-        var allKeys = Object.keys(global.portfolio["0"])
+    super(props);
+    this.state = {fadeIn1: new Animated.Value(0)};
+    this.portfolio = null;
+    this.performanceData = null;
+    var allKeys = Object.keys(global.portfolio["0"])
         var yes = 0
         formatString = ""
         allKeys.forEach(function (element) {
             if (global.portfolio["0"][element] > 0.01){
-                yes = global.portfolio["0"][element] * 100
-                formatString += element + " " + yes.toFixed(0) + "%\n"
+                formatString += element + "~" + global.portfolio["0"][element].toFixed(2) + "|"
             }
         })
         console.log(formatString)
-        this.everything = formatString
-    }
+        this.posString = formatString
+  }
   fadeIn1() {
     this.state.fadeIn1.setValue(0)
     Animated.timing(
@@ -39,23 +40,17 @@ export default class PortfolioScreen extends React.Component {
       }
     ).start(() => {});
   }
-  fadeIn2() {
-    this.state.fadeIn2.setValue(0)
-    Animated.timing(
-      this.state.fadeIn2,
-      {
-        toValue: 1,
-        delay:2000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
-  render() {
-    if (global.portfolioGenerated === false) {
-        this.fadeIn1();
-        this.fadeIn2();
-        global.portfolioGenerated = true;
+
+    componentDidMount() {
+        console.log(global.portfolio)
+            Axios.get(`${constants.serverBase}${constants.performanceEndpoint}?positions=${this.posString}`)
+                .then((response) => {
+                    global.performanceData = response.data;
+                    this.props.navigation.navigate("Portfolio")
+                }).catch((err) => {})
     }
+  render() {
+    //this.fadeIn1()
     return (
       <View colors={['#87CEEEB','#87BCDE']} style={styles.container}>
     
@@ -63,43 +58,18 @@ export default class PortfolioScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}> 
-
-          <Animated.View style={{opacity: this.state.fadeIn1}}>
-            <Text style={styles.getStartedText}>
-              Our Recommended Portfolio
-            </Text>
-            </Animated.View>
-            <Animated.View style={{opacity: this.state.fadeIn2}}>
-            <Text style={styles.mainText}>
-             {this.everything}
-            </Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("Performance")}>
-            <View
-              style={{
-                backgroundColor: '#2B4162',
-                top:5,
-                //flex:0,
-                alignItems: 'center',
-                alignSelf:'center',
-                justifyContent: 'center',
-                borderRadius: 15,
-                padding: 15,
-              }}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                View Portfolio Past Performance
-              </Text>
-            </View>
-          </TouchableOpacity>
-          </Animated.View>
+          <Text style={styles.getStartedText}>
+            Loading Graphs
+          </Text>
         </View>
-      </ScrollView>
-    </View>
+        </ScrollView>
+      </View>
     );
   }
 }
 
 
-PortfolioScreen.navigationOptions = {
+WaitScreen2.navigationOptions = {
   header: null,
 };
 
@@ -108,7 +78,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#87bcde',
-    paddingTop: 20
+    paddingTop: 70
   },
   developmentModeText: {
     marginBottom: 20,
@@ -147,14 +117,6 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: '#ffffff',
     fontWeight: 'bold',
-    top: 0, left: 0, bottom: 0, right: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
-  },
-  mainText: {
-    fontSize: 50,
-    color: '#ffffff',
     top: 0, left: 0, bottom: 0, right: 0,
     justifyContent: 'center',
     alignItems: 'center',

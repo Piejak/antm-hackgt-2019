@@ -10,64 +10,102 @@ import {
   View,
   Animated
 } from 'react-native';
+import LineChart from "react-native-responsive-linechart";
 
-export default class PortfolioScreen extends React.Component {
+export default class PerformanceScreen extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {fadeIn1: new Animated.Value(0),
-                  fadeIn2: new Animated.Value(0),
-                  fadeIn3: new Animated.Value(0),
-                  fadeIn4: new Animated.Value(0)};
+    this.state = {fadeIn1: new Animated.Value(0), date:null, startingCapital:global.budgetFloat};
+    this.performance = [];
+    this.labels = [];
+    this.data = global.performanceData;
+    this.months = [
+        'January',
+        'February',
+        'March',
+        'April',
+        'May',
+        'June',
+        'July',
+        'August',
+        'September',
+        'October',
+        'November',
+        'December',
+      ]
+    this.config = {
+        line: {
+          visible: true,
+          strokeWidth: 1,
+          strokeColor: "#54a0ff"
+        },
+        area: {
+          visible: false
+        },
+        tooltip: {
+          visible: true,
+          labelFontSize: 10
+        },
+        grid: {
+          stepSize: 10000
+        },
+        yAxis: {
+          labelColor: "#54a0ff"
+        },
+        insetY: 10,
+        insetX: 10
+      };
+
+
+
+
   }
-  fadeIn1() {
-    this.state.fadeIn1.setValue(0)
-    Animated.timing(
-      this.state.fadeIn1,
-      {
-        toValue: 1,
-        delay:1000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
-  fadeIn2() {
-    this.state.fadeIn2.setValue(0)
-    Animated.timing(
-      this.state.fadeIn2,
-      {
-        toValue: 1,
-        delay:2000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
-  fadeIn3() {
-    this.state.fadeIn3.setValue(0)
-    Animated.timing(
-      this.state.fadeIn3,
-      {
-        toValue: 1,
-        delay:3000,
-        duration: 1000
-      }
-    ).start(() => {});
-  }
-  fadeIn4() {
-    this.state.fadeIn4.setValue(0)
-    Animated.timing(
-      this.state.fadeIn4,
-      {
-        toValue: 1,
-        delay:4000,
-        duration: 1000
-      }
-    ).start(() => {});
+  composeChart() {
+    console.log(this.state.date);
+    let basePerformance = null;
+      let numPoints = this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.length;
+      let pointNum = 0;
+      this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
+        let d = new Date(h[0]);
+        if (this.state.date == null || this.state.date == 'Invalid Date') {
+          if (numPoints > 1000) {
+            if (pointNum % 30 == 0) {
+              this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+              this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+            }
+          } else {
+            this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+            this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+          }
+        } else if (d >= this.state.date) {
+          if (basePerformance == null) {
+            basePerformance = h[1];
+          }
+          if (numPoints > 1000) {
+            if (pointNum % 30 == 0) {
+              this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+              this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
+            }
+          } else {
+            this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+            this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
+          }
+        }
+        pointNum++;
+      });
+      console.log(this.labels)
+      console.log(this.performance)
+      global.labels = this.labels
+      global.performance = this.performance
+
+      // const ctx = document.getElementById('performanceChart');
+      // this.createChart(ctx);
   }
   render() {
-    this.fadeIn1();
-    this.fadeIn2();
-    this.fadeIn3();
-    this.fadeIn4();
+    if (global.portfolioGenerated === false) {
+        global.portfolioGenerated = true;
+    }
+    this.composeChart()
     return (
       <View colors={['#87CEEEB','#87BCDE']} style={styles.container}>
     
@@ -75,87 +113,38 @@ export default class PortfolioScreen extends React.Component {
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
           <View style={styles.getStartedContainer}> 
-          <Text style={styles.getStartedText}>
-            Your parameters are:
-            </Text>
 
-          <Animated.View style={{opacity: this.state.fadeIn1}}>
-            <Text style={styles.verifyTextTitle}>
-              Time Horizon: 
+            <Text style={styles.getStartedText}>
+              Past Portfolio Performance
             </Text>
-            <Text style={styles.verifyText}>
-              {global.timeHorizonLabel}
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={{opacity: this.state.fadeIn2}}>
-            <Text style={styles.verifyTextTitle}>
-              Risk Tolerance: 
-            </Text>
-            <Text style={styles.verifyText}>
-              {global.riskToleranceLabel}
-            </Text>
-          </Animated.View>
-
-          <Animated.View style={{opacity: this.state.fadeIn3}}>
-            <Text style={styles.verifyTextTitle}>
-              Budget: 
-            </Text>
-            <Text style={styles.verifyText}>
-              {'$' + global.budgetLabel}
-            </Text>
-          </Animated.View>
-          </View>
-
-          <Animated.View style={{opacity: this.state.fadeIn4}}>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("TimeHorizon")}>
+            <LineChart style={{ flex: 1 }} config={this.config} data={global.performance} />
+          <TouchableOpacity onPress={() => this.props.navigation.navigate("Portfolio")}>
             <View
               style={{
                 backgroundColor: '#CC2936',
-                width:200,
                 top:5,
                 //flex:0,
                 alignItems: 'center',
                 alignSelf:'center',
                 justifyContent: 'center',
                 borderRadius: 15,
-                padding: 15
+                padding: 15,
               }}>
               <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                Return to Start
+                Return to Portfolio
               </Text>
             </View>
           </TouchableOpacity>
-          <Text style={{padding:5}}></Text>
-          <TouchableOpacity onPress={() => this.props.navigation.navigate("WaitMe")}>
-            <View
-              style={{
-                backgroundColor: '#2B4162',
-                width:200,
-                top:5,
-                //flex:0,
-                alignItems: 'center',
-                alignSelf:'center',
-                justifyContent: 'center',
-                borderRadius: 15,
-                padding: 15
-              }}>
-              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                View Portfolio
-              </Text>
-            </View>
-          </TouchableOpacity>
-          </Animated.View>
 
-        </ScrollView>
-
-      </View>
+        </View>
+      </ScrollView>
+    </View>
     );
   }
 }
 
 
-PortfolioScreen.navigationOptions = {
+PerformanceScreen.navigationOptions = {
   header: null,
 };
 
@@ -164,7 +153,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#87bcde',
-    paddingTop: 70
+    paddingTop: 20
   },
   developmentModeText: {
     marginBottom: 20,
