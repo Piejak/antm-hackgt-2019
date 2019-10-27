@@ -55,3 +55,7 @@ def calculate_daily_return(normalized_prices, allocations):
     daily_portfolio_val = (normalized_prices * allocations).sum(axis=1)  # axis=1 indicates sum across each row
     daily_return = daily_portfolio_val / daily_portfolio_val.shift(1) - 1
     return daily_return[1:]
+
+def get_performance_data(portfolio):
+    resp = requests.get('https://www.blackrock.com/tools/hackathon/portfolio-analysis?calculatePerformance=true&positions=' + portfolio)
+    return resp.content
