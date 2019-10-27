@@ -68,6 +68,9 @@ class App extends React.Component {
           step: 'performance',
           holdings: holdings
         });
+      }).catch((error) => {
+        console.log(error);
+        this.setState({step: 'form'});
       });
 
   }
