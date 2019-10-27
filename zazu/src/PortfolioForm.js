@@ -40,25 +40,25 @@ class PortfolioForm extends React.Component {
                     <Form.Label>How long do you want to save?</Form.Label>
                     <Form.Check
                     type="radio"
-                    label="Short Term (0-5 years)"
+                    label="Short Term (<2 years)"
                     name="saveLengthRadios"
                     id = "saveLengthRadiosShort"
-                    value="1"
+                    value="2"
                     defaultChecked
                     />
                     <Form.Check
                     type="radio"
-                    label = "Medium Term (5-15 years)"
+                    label = "Medium Term (2-6 years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosMedium"
-                    value = "10"
+                    value = "4"
                     />
                     <Form.Check
                     type="radio"
-                    label = "Long Term (15+ years)"
+                    label = "Long Term (>6 years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosLong"
-                    value = "15"
+                    value = "6"
                     />
                 </Form.Group>
                 <br />

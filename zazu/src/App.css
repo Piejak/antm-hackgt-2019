@@ -9,7 +9,7 @@
 .App {
   animation-duration: 3s;
   animation-name: fadeIn;
-  text-align: left; 
+  text-align: left;
   background-color: white;
   flex-direction: column-reverse;
   /* float: inline-end; */
@@ -30,7 +30,7 @@
 }
 h1{
 
-  text-align: left; 
+  text-align: left;
 
 }
 
@@ -54,4 +54,9 @@ h1{
 
 .App-link {
   color: #09d3ac;
+}
+
+.loadingDiv {
+  margin: 0 auto;
+  width: 100px;
 }
