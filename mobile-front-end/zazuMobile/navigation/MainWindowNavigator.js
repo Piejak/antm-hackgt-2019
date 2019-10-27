@@ -9,6 +9,7 @@ import RiskScreen from '../screens/RiskScreen';
 import BudgetScreen from '../screens/BudgetScreen';
 import VerifyScreen from '../screens/VerifyInfo';
 import WaitScreen from '../screens/WaitScreen';
+import PortfolioScreen from '../screen/PortfolioScreen'
 
 const config = Platform.select({
     web: { headerMode: 'screen' },
@@ -23,7 +24,8 @@ const HomeStack = createStackNavigator(
       Risk: {screen: RiskScreen},
       Budget: {screen: BudgetScreen},
       Verify: {screen: VerifyScreen},
-      WaitMe: {screen: WaitScreen}
+      WaitMe: {screen: WaitScreen},
+      Portfolio: {screen: PortfolioScreen}
     },
     {
         initialRouteName: 'Home'
