@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, View, Button, Switch, Text } from 'react-native';
+import { ScrollView, StyleSheet, View, TouchableOpacity, Switch, Text } from 'react-native';
  
  
 export default class SectorSelectScreen extends React.Component{
@@ -24,6 +24,12 @@ export default class SectorSelectScreen extends React.Component{
     return (
       <ScrollView style={styles.container}>
         <View>
+        <Text style={styles.titleText}>
+          Select Sectors and Industries
+        </Text>
+        <Text style={styles.blurbText}>
+          The Time Horizon is how long you plan on keeping your investments before you sell your investments off.
+        </Text>
             {/*Comm Services*/}
             <Switch
             style={{marginTop:30}}
@@ -89,10 +95,23 @@ export default class SectorSelectScreen extends React.Component{
             style={{marginTop:30}}
             onValueChange = {this.toggleSwitchValueUtilities}
             value = {this.state.switchValueUtilities}/>
-      <Button 
-            title="NEXT ->" 
-            onPress={() => this.props.navigation.navigate("Risk")} >
-      </Button>
+      <TouchableOpacity onPress={() => this.props.navigation.navigate("Risk")}>
+            <View
+              style={{
+                backgroundColor: '#2B4162',
+                top:5,
+                //flex:0,
+                alignItems: 'center',
+                alignSelf:'center',
+                justifyContent: 'center',
+                borderRadius: 15,
+                padding: 15,
+              }}>
+              <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
+                Next: Verify Options
+              </Text>
+            </View>
+        </TouchableOpacity>
       </View>
       </ScrollView>
     );
@@ -166,7 +185,7 @@ export default class SectorSelectScreen extends React.Component{
 }
 
 SectorSelectScreen.navigationOptions = {
-  title: 'Select Your Time Horizon',
+  title: 'Sectors and Industries',
 };
 
 

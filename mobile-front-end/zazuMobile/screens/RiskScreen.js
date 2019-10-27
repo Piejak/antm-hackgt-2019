@@ -3,12 +3,15 @@ import { ScrollView, StyleSheet, View, Text, TouchableOpacity, Image } from 'rea
 import RadioForm from 'react-native-simple-radio-button';
  
 var radio_props = [
-  {label: 'Small (ETFS + Bonds)', value: 0 },
-  {label: 'Medium (ETS & Stocks)', value: 1 },
-  {label: 'Long (Stocks)', value: 2 }
+  {label: 'Low (ETFS)', value: 0 },
+  {label: 'Medium (Stocks)', value: 1 }
 ];
  
 export default class RiskScreen extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {value: 0, label:'Low (ETFS)'};
+  }
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -28,7 +31,20 @@ export default class RiskScreen extends React.Component{
           onPress={(value) => {this.setState({value:value})}}
           style={{paddingLeft: 10}}
         />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("Budget")}>
+        <TouchableOpacity onPress={() => {
+          global.riskToleranceValue = this.state.value
+          switch(this.state.value){
+            case 0:
+              global.riskToleranceLabel = 'Low (ETFS)';
+              break;
+            case 1:
+              global.riskToleranceLabel = 'Medium (Stocks)';
+              break;
+            default:
+              break;
+          }
+          this.props.navigation.navigate("Budget")}
+          }>
             <View
               style={{
                 backgroundColor: '#2B4162',

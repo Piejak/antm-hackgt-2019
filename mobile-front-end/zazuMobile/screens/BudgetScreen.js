@@ -6,7 +6,7 @@ var wrong = false
 export default class BudgetScreen extends React.Component{
     constructor(props) {
         super(props);
-        this.state = {text: '10000'};
+        this.state = {text: '10000.00'};
       }
 
   render() {
@@ -36,7 +36,10 @@ export default class BudgetScreen extends React.Component{
       <TouchableOpacity onPress={() => {
         if (this.state.text !== '') {
           if (decimalOnly.test(this.state.text)) {
-            this.props.navigation.navigate("Sector")
+
+            global.budgetFloat = parseFloat(this.state.text)
+            global.budgetLabel = global.budgetFloat.toFixed(2)
+            this.props.navigation.navigate("Verify")
             wrong = false
           } else {
             wrong = true
@@ -57,7 +60,7 @@ export default class BudgetScreen extends React.Component{
                 padding: 15,
               }}>
               <Text style={{color: 'white', fontSize: 20, fontWeight: '800'}}>
-                Next: Select Your Sectors
+                Verify Your Parameters
               </Text>
             </View>
         </TouchableOpacity>

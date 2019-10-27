@@ -7,12 +7,19 @@ import HomeScreen from '../screens/HomeScreen';
 import TimeHorizonScreen from '../screens/TimeHorizonScreen';
 import RiskScreen from '../screens/RiskScreen';
 import BudgetScreen from '../screens/BudgetScreen';
-import SectorSelectScreen from '../screens/SectorSelectScreen';
+import VerifyScreen from '../screens/VerifyInfo';
 
 const config = Platform.select({
     web: { headerMode: 'screen' },
     default: {},
   });
+
+const details = {
+  time:-1,
+  risk:-1,
+  budget:-1
+};
+
 
 const HomeStack = createStackNavigator(
     {
@@ -20,7 +27,7 @@ const HomeStack = createStackNavigator(
       TimeHorizon: {screen: TimeHorizonScreen},
       Risk: {screen: RiskScreen},
       Budget: {screen: BudgetScreen},
-      Sector: {screen: SectorSelectScreen}
+      Verify: {screen: VerifyScreen}
     },
     {
         initialRouteName: 'Home'

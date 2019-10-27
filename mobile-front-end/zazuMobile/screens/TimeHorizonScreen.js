@@ -9,6 +9,10 @@ var radio_props = [
 ];
  
 export default class TimeHorizonScreen extends React.Component{
+  constructor(props) {
+    super(props);
+    this.state = {value: 0, label:'Long (15+ Years)'};
+  }
   render() {
     return (
       <ScrollView style={styles.container}>
@@ -25,10 +29,26 @@ export default class TimeHorizonScreen extends React.Component{
         <RadioForm
           radio_props={radio_props}
           initial={0}
-          onPress={(value) => {this.setState({value:value})}}
+          onPress={(label, value) => {this.setState({value:value})}}
           style={{paddingLeft: 10}}
         />
-        <TouchableOpacity onPress={() => this.props.navigation.navigate("Risk")}>
+        <TouchableOpacity onPress={() => {
+          global.timeHorizonValue = this.state.value
+          switch(this.state.value){
+            case 0:
+              global.timeHorizonLabel = 'Long (15+ Years)';
+              break;
+            case 1:
+              global.timeHorizonLabel = 'Medium (5-14 Years)';
+              break;
+            case 2:
+              global.timeHorizonLabel = 'Short (0-4 Years)';
+              break;
+            default:
+              break;
+          }
+          this.props.navigation.navigate("Risk")
+          }}>
             <View
               style={{
                 backgroundColor: '#2B4162',
