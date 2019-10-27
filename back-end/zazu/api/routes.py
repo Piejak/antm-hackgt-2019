@@ -10,11 +10,8 @@ from ..util import get_normalized_prices, get_optimized_allocations, get_perform
 
 @api_blueprint.route('/', methods=['GET'])
 def get_allocation():
-    # time_horizon = int(request.args.get('time'))
-    # risk_tolerance = request.args.get('risk')
-
-    time_horizon = 2
-    risk_tolerance = 'medium'
+    time_horizon = int(request.args.get('time'))
+    risk_tolerance = request.args.get('risk')
 
     start_date = str(datetime.today() + relativedelta(years=-1*time_horizon)).split(" ")[0].replace('-', '')
 
