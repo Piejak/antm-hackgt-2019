@@ -68,6 +68,8 @@ def calculate_daily_return(normalized_prices, allocations):
     daily_return = daily_portfolio_val / daily_portfolio_val.shift(1) - 1
     return daily_return[1:]
 
+
 def get_performance_data(portfolio):
-    resp = requests.get('https://www.blackrock.com/tools/hackathon/portfolio-analysis?calculatePerformance=true&positions=' + portfolio)
+    url = 'https://www.blackrock.com/tools/hackathon/portfolio-analysis?calculatePerformance=true&positions='
+    resp = requests.get(url + portfolio)
     return resp.content

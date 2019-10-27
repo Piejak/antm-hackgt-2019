@@ -30,6 +30,7 @@ def get_allocation():
     allocations = pd.DataFrame(optimized_allocations, index=tickers)
     return allocations.to_json()
 
+
 @api_blueprint.route('/performance', methods=['GET'])
 def get_performance():
     portfolio = request.args.get('positions')
