@@ -117,7 +117,7 @@ export default class PerformanceScreen extends React.Component {
             <Text style={styles.getStartedText}>
               Past Portfolio Performance
             </Text>
-            <LineChart style={{ flex: 1 }} config={this.config} data={global.performance} />
+            <LineChart style={{ flex: 1 }} config={defaultConfig} data={data} />
           <TouchableOpacity onPress={() => this.props.navigation.navigate("Portfolio")}>
             <View
               style={{
@@ -257,3 +257,71 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 });
+
+const data = [-10, -15, 40, 19, 32, 15, 52, 55, 20, 60, 78, 42, 56];
+const defaultConfig = {
+    grid: {
+      visible: true,
+      backgroundColor: "#fff",
+      strokeWidth: 1,
+      strokeColor: "#ededed",
+      stepSize: 15
+    },
+    line: {
+      visible: true,
+      strokeWidth: 1,
+      strokeColor: "#333"
+    },
+    area: {
+      visible: true,
+      gradientFrom: "#be2ddd",
+      gradientFromOpacity: 1,
+      gradientTo: "#e056fd",
+      gradientToOpacity: 0.4
+    },
+    yAxis: {
+      visible: true,
+      labelFontSize: 12,
+      labelColor: "#777",
+      labelFormatter: v => String(v)
+    },
+    xAxis: {
+      visible: false,
+      labelFontSize: 12,
+      labelColor: "#777"
+    },
+    tooltip: {
+      visible: false,
+      labelFormatter: v => v.toFixed(2),
+      lineColor: "#777",
+      lineWidth: 1,
+      circleColor: "#fff",
+      circleBorderColor: "#fff",
+      circleBorderWidth: 1,
+      boxColor: "#fff",
+      boxBorderWidth: 1,
+      boxBorderColor: "#777",
+      boxBorderRadius: 5,
+      boxPaddingY: 0,
+      boxPaddingX: 0,
+      labelColor: "black",
+      labelFontSize: 10
+    },
+    dataPoint: {
+      visible: false,
+      color: "#777",
+      radius: 5,
+      label: {
+        visible: false,
+        labelFontSize: 12,
+        labelColor: "#777",
+        labelFormatter: v => String(v),
+        marginBottom: 25
+      }
+    },
+    insetY: 0,
+    insetX: 0,
+    interpolation: "none",
+    backgroundColor: "#fff",
+    backgroundOpacity: 1
+  };
