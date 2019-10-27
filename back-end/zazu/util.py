@@ -18,15 +18,28 @@ def get_normalized_prices(start_date: str, tickers: list) -> pd.DataFrame:
     json_response = response.json()
 
     returns = json_response['resultMap']['RETURNS']
-    normalized_prices_df = pd.DataFrame()
+    dates = list(returns[0]['returnsMap'])
+    normalized_prices_df = pd.DataFrame(index=dates)
     for stock in returns:
         returns_dict = stock['returnsMap']
-        normalized_prices = [1]
+        normalized_prices = []
         for date in returns_dict:
-            price = returns_dict[date]['level']
-            normalized_prices.append(price)
-        normalized_prices_df[stock['ticker']] = normalized_prices
-    return normalized_prices_df
+            # Only record return data for days in which the stock traded
+            if returns_dict[date]['oneDay'] != 0.:
+                price = returns_dict[date]['level']
+                normalized_prices.append(price)
+            else:
+                normalized_prices.append(np.nan)
+        temp_df = pd.DataFrame(normalized_prices, index=list(returns_dict), columns=[stock['ticker']])
+        normalized_prices_df = normalized_prices_df.join(temp_df)
+        if returns_dict == returns[0]['returnsMap']:
+            normalized_prices_df = normalized_prices_df.dropna()
+    normalized_prices_df.fillna(method='ffill', inplace=True)
+    normalized_prices_df.fillna(method='bfill', inplace=True)
+    # Create a row of ones to append to the top on the normalized_prices_df
+    ones_df = pd.DataFrame(columns=tickers)
+    ones_df.loc[0] = 1.
+    return pd.concat([ones_df, normalized_prices_df])
 
 
 def get_optimized_allocations(tickers: list, normalized_prices: pd.DataFrame, samples: int):
@@ -47,7 +60,6 @@ def get_optimized_allocations(tickers: list, normalized_prices: pd.DataFrame, sa
 def sharpe_ratio(allocations, normalized_prices, samples, risk_free_return=0.0):
     daily_return = calculate_daily_return(normalized_prices, allocations)
     sr = np.mean(daily_return - risk_free_return) / np.std(daily_return)
-    # Return annualized sharpe ratio
     return -1 * np.sqrt(samples) * sr
 
 
