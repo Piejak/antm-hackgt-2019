@@ -29,7 +29,7 @@ def get_normalized_prices(start_date: str, tickers: list) -> pd.DataFrame:
     return normalized_prices_df
 
 
-def get_optimized_allocations(tickers: list, normalized_prices: pd.DataFrame):
+def get_optimized_allocations(tickers: list, normalized_prices: pd.DataFrame, samples: int):
     # Optimize allocations
     initial_allocations = np.empty(len(tickers), )
     initial_allocations[:] = 1 / len(tickers)
@@ -38,19 +38,17 @@ def get_optimized_allocations(tickers: list, normalized_prices: pd.DataFrame):
     # fun specifies a function that returns 0 only when the input satisfies the constraint
     constraints = ({'type': 'eq', 'fun': lambda inputs: 1.0 - np.sum(inputs)})
 
-    optimization_result = minimize(sharpe_ratio, initial_allocations, args=normalized_prices,
+    optimization_result = minimize(sharpe_ratio, initial_allocations, args=(normalized_prices, samples),
                                    bounds=bounds, constraints=constraints)
     optimized_allocations = optimization_result.x
-    optimized_sharpe_ratio = -1 * optimization_result.fun
-
     return optimized_allocations
 
 
-def sharpe_ratio(allocations, normalized_prices, risk_free_return=0.0, number_of_samples=252):
+def sharpe_ratio(allocations, normalized_prices, samples, risk_free_return=0.0):
     daily_return = calculate_daily_return(normalized_prices, allocations)
     sr = np.mean(daily_return - risk_free_return) / np.std(daily_return)
     # Return annualized sharpe ratio
-    return -1 * np.sqrt(number_of_samples) * sr
+    return -1 * np.sqrt(samples) * sr
 
 
 def calculate_daily_return(normalized_prices, allocations):

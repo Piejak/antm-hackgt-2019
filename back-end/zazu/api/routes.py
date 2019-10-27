@@ -10,20 +10,20 @@ from ..util import get_normalized_prices, get_optimized_allocations
 
 @api_blueprint.route('/', methods=['GET'])
 def get_allocation():
-    # time_horizon = request.args.get('time')
-    time_horizon = 1
+    time_horizon = request.args.get('time')
     risk_tolerance = request.args.get('risk')
 
     start_date = str(datetime.today() + relativedelta(years=-1*time_horizon)).split(" ")[0].replace('-', '')
 
-    # TODO: DETERMINE PORTFOLIO COMPOSITION BASED ON USER PROFILE
     if risk_tolerance == 'low':
-        tickers = ['SPY', 'VT', 'EFA', 'DIA']
+        tickers = ['SPY', 'VT', 'EFA', 'QQQ', 'DIA', 'XLF']
+        sharpe_ratio_samples = 12
     else:
         tickers = ['MSFT', 'AAPL', 'AMZN', 'JPM', 'JNJ', 'PG', 'BA', 'MCD', 'MA', 'UNH', 'XOM']
+        sharpe_ratio_samples = 252
 
     normalized_prices_df = get_normalized_prices(start_date, tickers)
-    optimized_allocations = get_optimized_allocations(tickers, normalized_prices_df)
+    optimized_allocations = get_optimized_allocations(tickers, normalized_prices_df, sharpe_ratio_samples)
 
     allocations = pd.DataFrame(optimized_allocations, index=tickers)
     return allocations.to_json()
