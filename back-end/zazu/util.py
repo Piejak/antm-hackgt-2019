@@ -19,13 +19,17 @@ def get_normalized_prices(start_date: str, tickers: list) -> pd.DataFrame:
 
     returns = json_response['resultMap']['RETURNS']
     dates = list(returns[0]['returnsMap'])
+    frequency = returns[0]['returnsType']
     normalized_prices_df = pd.DataFrame(index=dates)
     for stock in returns:
         returns_dict = stock['returnsMap']
         normalized_prices = []
         for date in returns_dict:
             # Only record return data for days in which the stock traded
-            if returns_dict[date]['oneDay'] != 0.:
+            if frequency == 'DAILY' and returns_dict[date]['oneDay'] != 0.:
+                price = returns_dict[date]['level']
+                normalized_prices.append(price)
+            elif frequency == 'MONTHLY' and returns_dict[date]['oneMonth'] != 0.:
                 price = returns_dict[date]['level']
                 normalized_prices.append(price)
             else:
