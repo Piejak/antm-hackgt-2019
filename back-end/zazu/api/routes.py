@@ -5,13 +5,15 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from . import api_blueprint
-from ..util import get_normalized_prices, get_optimized_allocations
+from ..util import get_normalized_prices, get_optimized_allocations, get_performance_data
 
 
 @api_blueprint.route('/', methods=['GET'])
 def get_allocation():
     time_horizon = int(request.args.get('time'))
     risk_tolerance = request.args.get('risk')
+    print(time_horizon)
+    print(risk_tolerance)
 
     start_date = str(datetime.today() + relativedelta(years=-1*time_horizon)).split(" ")[0].replace('-', '')
 
@@ -27,3 +29,8 @@ def get_allocation():
 
     allocations = pd.DataFrame(optimized_allocations, index=tickers)
     return allocations.to_json()
+
+@api_blueprint.route('/performance', methods=['GET'])
+def get_performance():
+    portfolio = request.args.get('positions')
+    return get_performance_data(portfolio)
