@@ -71,7 +71,7 @@ class PortfolioForm extends React.Component {
                     instruments being used */}
                     <Form.Check
                     type="radio"
-                    label= {<div> Low (<ETFHover/> & <BondHover/>)</div>}
+                    label= {<div> Low (<ETFHover/>)</div>}
                     name="saveRiskRadios"
                     id = "saveRiskRadiosLow"
                     value = "low"
