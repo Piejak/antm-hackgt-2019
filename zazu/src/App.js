@@ -106,14 +106,14 @@ class App extends React.Component {
             <Container>
                   <div>
                     <Row>
-                      <Col med={6}>
+                      <Col med={6} sm={12}>
                         <h1>
                           Manage your money
                         </h1>
                         <PortfolioForm formSubmit={this.handleClick} />
                       </Col>
-
-                      <Col med={6}>
+                      <br />
+                      <Col med={6} sm={12}>
                         <h1>Why invest?</h1>
                         <p>A 2017 Gallup poll found that <strong>46%</strong> of Americans don't own stocks. By making smart investment choices you can grow your savings and start planning for the future. Most savings accounts offer between 1-2% annual returns, while the S&P500 has returned around 8% on average over the last 40 years.</p>
                         <p></p>
