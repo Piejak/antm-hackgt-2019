@@ -29,7 +29,7 @@ class PortfolioForm extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        this.state.formSubmit();
+        this.state.formSubmit(data);
         console.log(data.get('saveLengthRadios'));
     }
 
@@ -43,7 +43,7 @@ class PortfolioForm extends React.Component {
                     label="Short Term (0-5 years)"
                     name="saveLengthRadios"
                     id = "saveLengthRadiosShort"
-                    value="short"
+                    value="1"
                     defaultChecked
                     />
                     <Form.Check
@@ -51,14 +51,14 @@ class PortfolioForm extends React.Component {
                     label = "Medium Term (5-15 years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosMedium"
-                    value = "medium"
+                    value = "10"
                     />
                     <Form.Check
                     type="radio"
                     label = "Long Term (15+ years)"
                     name = "saveLengthRadios"
                     id = "saveLengthRadiosLong"
-                    value = "long"
+                    value = "15"
                     />
                 </Form.Group>
                 <br />
@@ -79,17 +79,10 @@ class PortfolioForm extends React.Component {
                     />
                     <Form.Check
                     type="radio"
-                    label = {<div> Medium (ETFs & <StockHover/>)</div>}
+                    label = {<div> Medium (<StockHover/>)</div>}
                     name = "saveRiskRadios"
                     id = "saveRiskRadiosMedium"
                     value = "medium"
-                    />
-                    <Form.Check
-                    type="radio"
-                    label = "High (Stocks)"
-                    name = "saveRiskRadios"
-                    id = "saveRiskRadiosHigh"
-                    value = "high"
                     />
                 </Form.Group>
 

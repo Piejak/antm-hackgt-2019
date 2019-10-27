@@ -11,6 +11,7 @@ import APIClient from './apiClient';
 import HoldingsChart from './Charts/HoldingsChart';
 import PerformanceChart from './Charts/PerformanceChart';
 import PortfolioHover from './PortfolioHover';
+import debounce from 'lodash.debounce';
 
 
 
@@ -21,10 +22,12 @@ class PortfolioPerformance extends React.Component {
         super(props);
         this.state = {
             capitalValue: 10000,
-            date: null
+            date: null,
+            holdings: props.holdings
         }
         this.startingCapChange = this.startingCapChange.bind(this);
         this.startDateChange = this.startDateChange.bind(this);
+        this.onChangeDebounced = debounce(this.onChangeDebounced, 1000)
     }
 
     async componentDidMount() {
@@ -38,9 +41,25 @@ class PortfolioPerformance extends React.Component {
     }
 
     startingCapChange(event) {
-        let n = parseFloat(event.target.value);
+        let eventVal = event.target.value;
+        // setTimeout(() => {
+        //     let n = parseFloat(eventVal);
+        //     if (!Number.isNaN(n)) {
+        //         this.setState({
+        //             capitalValue: n
+        //         });
+        //     }
+        // }, 1000, eventVal)
+        this.onChangeDebounced(eventVal);
+    }
+
+    onChangeDebounced = (eventVal) => {
+
+        let n = parseFloat(eventVal);
         if (!Number.isNaN(n)) {
-            this.setState({capitalValue: n});
+            this.setState({
+                capitalValue: n
+            });
         }
     }
 
@@ -73,7 +92,7 @@ class PortfolioPerformance extends React.Component {
         ];
         return (
             <div>
-                <HoldingsChart holdings={h} />
+                <HoldingsChart holdings={this.state.holdings} />
                 <br />
                 <h3>
                     <div>
@@ -114,7 +133,7 @@ class PortfolioPerformance extends React.Component {
                         </Col>
                         <Col sm="6" />
                     </FormGroup>
-                <PerformanceChart holdings={h} capitalValue={this.state.capitalValue} date={this.state.date} key={`${this.state.capitalValue}${this.state.date}`}/>
+                <PerformanceChart holdings={this.state.holdings} capitalValue={this.state.capitalValue} date={this.state.date} key={`${this.state.capitalValue}${this.state.date}`}/>
             </div>
         );
     }

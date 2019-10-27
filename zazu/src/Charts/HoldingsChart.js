@@ -1,5 +1,8 @@
 import React from 'react';
 import Chart from 'chart.js';
+import {
+  Aspect6
+} from 'chartjs-plugin-colorschemes/src/colorschemes/colorschemes.office';
 
 class HoldingsChart extends React.Component {
   constructor(props) {
@@ -11,13 +14,15 @@ class HoldingsChart extends React.Component {
       'FixedIncome': '#a29bfe'
     }
 
+    console.log(props.holdings);
     this.weights = [];
     this.holdings = [];
-    this.colors = [];
+    this.colors = ['#00cec9', '#ff7675', '#dfe6e9', '#ffeaa7', '#fd79a8', '#636e72', '#a29bfe', '#55efc4',
+      '#00b894', '#00cec9', '#0984e3', '#6c5ce7', '#d63031', '#e84393'];
     props.holdings.forEach(h => {
       this.weights.push(h.weight);
       this.holdings.push(h.description);
-      this.colors.push(colorMapping[h.assetClass]);
+      // this.colors.push(colorMapping[h.assetClass]);
     });
 
     this.createChart = this.createChart.bind(this)
@@ -32,6 +37,13 @@ class HoldingsChart extends React.Component {
           backgroundColor: this.colors
         }],
         labels: this.holdings
+      },
+      options: {
+        plugins: {
+          colorschemes: {
+            scheme: Aspect6
+          }
+        }
       }
     });
     return chart;

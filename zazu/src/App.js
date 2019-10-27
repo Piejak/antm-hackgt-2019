@@ -16,6 +16,8 @@ import {
 
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Axios from 'axios';
+import constants from './constants';
 
 class App extends React.Component {
 
@@ -31,8 +33,30 @@ class App extends React.Component {
     this.backButton = this.backButton.bind(this);
   }
 
-  handleClick() {
-    this.setState({step: 'performance'});
+  handleClick(data) {
+    // send the preferences to the API
+    Axios.get(`${constants.serverBase}${constants.optimizeEndpoint}?time=${data.get('saveLengthRadios')}&risk=${data.get('saveRiskRadios')}`)
+      .then((response) => {
+        let optimizedPort = response.data[0];
+        console.log(optimizedPort);
+        let tickers = Object.keys(optimizedPort);
+        let alloc = [];
+        tickers.forEach(t => {
+          alloc.push(optimizedPort[t]);
+        });
+        let holdings = [];
+        for(let i = 0; i < tickers.length; i++) {
+          holdings.push({
+            description: tickers[i],
+            weight: alloc[i]
+          });
+        }
+        this.setState({
+          step: 'performance',
+          holdings: holdings
+        });
+      });
+
   }
 
   backButton() {
@@ -52,7 +76,7 @@ class App extends React.Component {
                 <h1>
                   We've picked the following investments for you
                 </h1>
-                <PortfolioPerformance />
+                <PortfolioPerformance holdings={this.state.holdings} />
               </div>
               :
               <div>
@@ -71,7 +95,6 @@ class App extends React.Component {
                   </Col>
                 </Row>
                 <br />
-                <Footer />
               </div>
           }
           <Footer />

@@ -3,7 +3,7 @@ import Chart from 'chart.js';
 import Axios from 'axios';
 import constants from '../constants.js';
 
-// let testData = require('../exResponse.json');
+let testData = require('../exResponse.json');
 
 class PerformanceChart extends React.Component {
   constructor(props) {
@@ -26,7 +26,7 @@ class PerformanceChart extends React.Component {
 
     this.posString = '';
     props.holdings.forEach(h => {
-      this.posString += `${h.ticker}~${h.weight}|`
+      this.posString += `${h.description}~${h.weight}|`
     });
 
     this.state = {
@@ -86,51 +86,87 @@ class PerformanceChart extends React.Component {
     return chart;
   }
 
-  composeChart() {
+  composeChart(realData) {
     this.performance = [];
     this.labels = [];
     console.log(this.state.date);
     let basePerformance = null;
-    this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
-      let d = new Date(h[0]);
-      if (this.state.date == null) {
-        this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
-        this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
-      } else if (d >= this.state.date) {
-        if (basePerformance == null) {
-          basePerformance = h[1];
+    if (realData) {
+      console.log(this.data.resultMap.PORTFOLIOS[0].portfolios[0]);
+      let numPoints = this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.length;
+      let pointNum = 0;
+      this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
+        let d = new Date(h[0]);
+        if (this.state.date == null) {
+          if (numPoints > 1000) {
+            if (pointNum % 30 == 0) {
+              this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+              this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+            }
+          } else {
+            this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+            this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+          }
+          pointNum++;
+        } else if (d >= this.state.date) {
+          if (basePerformance == null) {
+            basePerformance = h[1];
+          }
+          if (numPoints > 1000) {
+            if (pointNum % 30 == 0) {
+              this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+              this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+            }
+          } else {
+            this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+            this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+          }
+          pointNum++;
         }
-        this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
-        this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
-      }
-    });
+      });
 
-    const ctx = document.getElementById('performanceChart');
-    this.createChart(ctx);
+      const ctx = document.getElementById('performanceChart');
+      this.createChart(ctx);
+    } else {
+      // this.data.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
+      testData.resultMap.PORTFOLIOS[0].portfolios[0].returns.performanceChart.forEach(h => {
+        let d = new Date(h[0]);
+        if (this.state.date == null) {
+          this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+          this.performance.push(Math.round(h[1] * this.state.startingCapital * 100) / 100);
+        } else if (d >= this.state.date) {
+          if (basePerformance == null) {
+            basePerformance = h[1];
+          }
+          this.labels.push(`${this.months[d.getMonth()]} ${d.getYear() + 1900}`);
+          this.performance.push(Math.round(h[1] / basePerformance * this.state.startingCapital * 100) / 100);
+        }
+      });
+
+      const ctx = document.getElementById('performanceChart');
+      this.createChart(ctx);
+    }
   }
 
   componentDidMount() {
     if (this.data == null) {
-      // Axios.get(`${constants.blackrockBase}${constants.portfolioAnalysisEndpoint}?calculatePerformance=true&positions=${this.posString}`,
-      //   {
-      //     headers: {
-      //       'Access-Control-Allow-Origin': '*',
-      //       'Content-Type': 'application/json'
-      //     },
-      //     mode: 'no-cors'
-      fetch(`${constants.blackrockBase}${constants.portfolioAnalysisEndpoint}?calculatePerformance=true&positions=${this.posString}`,
-      {
-        headers: {
-          'Access-Control-Allow-Origin': 'http://localhost:3000'
-        }
-      })
+      Axios.get(`${constants.serverBase}${constants.performanceEndpoint}?positions=${this.posString}`)
+      // fetch(`${constants.serverBase}${constants.performanceEndpoint}?positions=${this.posString}`,
+      // {
+      //   headers: {
+      //     'Access-Control-Allow-Origin': 'http://localhost:3000'
+      //   }
+      // })
       .then((response) => {
-        this.data = response;
+        this.data = response.data;
         console.log(response);
-        this.composeChart();
+        this.composeChart(true);
+      }).catch((error) => {
+        console.log(error);
+        this.composeChart(false);
       });
     } else {
-      this.composeChart();
+      this.composeChart(false);
     }
   }
 
